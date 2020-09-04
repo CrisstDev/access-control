@@ -1,0 +1,45 @@
+<div class="all-container">
+    <nav class="navbar">
+        <div class="navbar-brand">
+            <a class="navbar-item">
+                <img src="https://mci12.com/wp-content/uploads/2019/08/mci-logo-w.png" width="112" height="112">
+            </a>
+        </div>
+    </nav>
+    <div class="contain">
+        <form [formGroup]="identificationForm" (ngSubmit)="handleSubmit();">
+            <div class="container-form">
+
+                <div class="title-container" style="width: 100%; text-align: center;">
+                    <p class="titleForm">Consultar registro</p>
+                </div>
+    
+    
+                <div class="field">
+                    <p class="control has-icons-left" [ngClass]="{ 'is-loading': isLoading }">
+                        <input class="input" type="text" [ngClass]="{'is-danger': form.identification.invalid, 'is-success': form.identification.valid }"
+                         placeholder="Digita el documento" (keypress)="numberOnly($event);" onKeyPress="if(this.value.length == 11) return false;" 
+                         formControlName="identification">
+                        <span class="icon is-small is-left">
+                            <i class="fas fa-id-card"></i>
+                        </span>
+                    </p>
+                </div>
+    
+                <div class="field is-grouped is-grouped-centered">
+                    <p class="control">
+                        <button class="button is-primary" [ngClass]="{ 'is-loading': isLoading }" [disabled]= "identificationForm.invalid">
+                            Consultar
+                        </button>
+                    </p>
+                </div>
+            </div>
+        </form>
+
+    </div>
+
+
+    <app-message *ngIf="activeModal" [isActive]="activeModal" [messageModal]="messageModal"
+        (close)="activeModal = false;"></app-message>
+
+</div>

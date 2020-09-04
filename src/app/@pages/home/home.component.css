@@ -1,0 +1,106 @@
+.all-container{
+    overflow: auto;
+    width: 100%;
+    height: 100vh;
+    background: url('https://mcidonaciones.com/static/media/slide-02.467b54a5.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    font-family: "Montserrat",sans-serif;;
+}
+.navbar{
+    background: transparent;
+}
+.navbar-item img{
+    max-width: 90px !important;
+    max-height: 90px !important;
+    background-size: cover;
+
+}
+.contain{
+    width: 100%;
+    padding: 40px;
+
+}
+.container-form{
+    border:1px solid #a8a8a8;
+    border-radius: 5px;
+    width: 30%;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 20px;
+    background: rgba(255,255,255,0.9);
+    padding: 20px;
+}
+.titleForm{
+    font-weight: bold;
+    font-size: 25px;
+    padding: 10px 0 15px;
+}
+/* form */
+.horizontal-field{
+    flex-grow: initial !important;
+    flex-basis: initial !important;
+}
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
+}
+input[type='radio']:after {
+    width: 15px;
+    height: 15px;
+    border-radius: 15px;
+    top: -2px;
+    left: -1px;
+    position: relative;
+    background-color: white;
+    content: '';
+    display: inline-block;
+    visibility: visible;
+    border: 1px solid #dbdbdb;    
+}
+
+input[type='radio']:checked:after {
+    width: 15px;
+    height: 15px;
+    border-radius: 15px;
+    top: -2px;
+    left: -1px;
+    position: relative;
+    background-color: white;
+    content: '';
+    display: inline-block;
+    visibility: visible;
+    border: 3px solid #48C774;    
+}
+.colorCheck{
+    color: #48C774 !important;
+}
+.colorTextInvalid{
+    color: #ef2e55
+}
+
+@media only screen and (max-width: 480px) {
+    .contain{
+        width: 100%;
+        padding: 0px;
+    }
+    
+    .container-form{
+        border: 1px solid #a8a8a8;
+        border-radius: 5px;
+        width: 100%;
+        margin-left: auto;
+        margin-right: auto;
+        margin-bottom: 20px;
+        background: rgba(255,255,255);
+        padding: 20px;
+    }
+  }
