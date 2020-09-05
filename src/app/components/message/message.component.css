@@ -1,4 +1,8 @@
 .modal{ z-index: 9999 !important;}
 ::-webkit-scrollbar {display: none;}
 .box{border-radius: 4px;}
-.modal-content{width:450px}
+.modal-content{width:600px}
+.section{
+    overflow: auto !important;
+    max-height: 300px !important;
+}

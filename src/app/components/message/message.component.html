@@ -18,6 +18,33 @@
                         </div>
                     </section>
 
+                    <div style="padding: 20px" *ngIf="messageModal?.data">
+                        <section class="section" style="background-color: whitesmoke;">
+
+                            <h2 class="title">Información del conductor</h2>
+
+                            <div class="card">
+                                <header class="card-header">
+                                  <p class="card-header-title">
+                                    {{ userInfo.driverName }}
+                                  </p>
+                                </header>
+                                <div class="card-content">
+                                  <div class="content">
+                                      <div style="width: 100%;">
+                                        <span class="subtitle" style="width: 100%;">Placa: {{ userInfo.plate }}</span>
+                                    </div>
+                                    <div style="width: 100%;">
+                                        <span class="subtitle">Reunión: {{ userInfo.meet }}</span>
+                                    </div>
+              
+                                  </div>
+                                </div>
+                              </div>
+
+                        </section>
+                    </div>
+
                     <div class="hero" style="padding:12px">
                         <button class="button is-primary" (click)="handleClose();">Vale</button>
                     </div>
@@ -30,7 +57,7 @@
                         <div class="hero-body">
                             <div class="container">
                                 <h1 class="title">
-                                   Rechazado
+                                    Rechazado
                                 </h1>
                                 <h2 class="subtitle">
                                     {{messageModal?.message}}
