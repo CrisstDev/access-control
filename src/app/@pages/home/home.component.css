@@ -88,19 +88,7 @@ input[type='radio']:checked:after {
 }
 
 @media only screen and (max-width: 480px) {
-    .contain{
-        width: 100%;
-        padding: 0px;
-    }
-    
     .container-form{
-        border: 1px solid #a8a8a8;
-        border-radius: 5px;
         width: 100%;
-        margin-left: auto;
-        margin-right: auto;
-        margin-bottom: 20px;
-        background: rgba(255,255,255);
-        padding: 20px;
     }
-  }
+}
