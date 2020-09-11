@@ -14,14 +14,24 @@ export class HomeComponent implements OnInit {
   public isLoading: boolean = false;
   public messageModal: any = { status: true, message: "", data: {} };
 
+  public allAssistants: any[] = [];
+
   constructor(private _databaseService: DatabaseService, private fb: FormBuilder,) { }
 
-  ngOnInit(): void { this.buildForm(); }
+  ngOnInit(): void { this.buildForm(); this.getAssistants(); }
 
   buildForm() {
     //build formbuilder group
     this.identificationForm = this.fb.group({
       identification: ['', [Validators.required, Validators.minLength(8)]]
+    })
+  }
+
+  getAssistants() {
+    this.isLoading = true;
+    this._databaseService.getData().subscribe(res => {
+      this.isLoading = false;
+      this.allAssistants = res;
     })
   }
 
@@ -34,30 +44,31 @@ export class HomeComponent implements OnInit {
     this.isLoading = true;
 
     //Get all list from firebase
-    this._databaseService.getData().subscribe((res) => {
+    // this._databaseService.getData().subscribe((res) => {
 
-      //asign value and call filter
-      let identification = this.form.identification.value;
-      let filtered = this.filter(res, identification);
+    //asign value and call filter
 
-      //Wait some moment to filter
-      setTimeout(() => {
-        this.isLoading = false;
+    const res = this.allAssistants;
+    let identification = this.form.identification.value;
+    let filtered = this.filter(res, identification);
 
-        //validate filter
-        if(filtered.length > 0){
-          this.messageModal.status = true;
-          this.messageModal.message = "El usuario se encuentra registrado.";
-          this.messageModal.data = filtered[0];
-        }else{
-          this.messageModal.status = false;
-          this.messageModal.message = "Lo sentimos, el usuario no existe.";
-        }
-        //active modal
-        this.activeModal = true;
-      })
-
-    }, err => { throw err; })
+    //Wait some moment to filter
+    setTimeout(() => {
+      this.isLoading = false;
+      //validate filter
+      if (filtered.length > 0) {
+        this.insertUser(filtered[0]);
+        this.messageModal.status = true;
+        this.messageModal.message = "El usuario se encuentra registrado.";
+        this.messageModal.data = filtered[0];
+      } else {
+        this.messageModal.status = false;
+        this.messageModal.message = "Lo sentimos, el usuario no existe.";
+      }
+      //active modal
+      this.activeModal = true;
+    })
+    // }, err => { throw err; })
   }
 
   filter(res: any, identification) {
@@ -68,6 +79,11 @@ export class HomeComponent implements OnInit {
         || (filter["Numero de Documento__2"] === parseInt(identification))
         || (filter["Numero de Documento__3"] === parseInt(identification))
     });
+  }
+
+
+  async insertUser(user: any) {
+    const response = await this._databaseService.insertUser({ identification: user["Numero de Documento"], license: user["Escriba la placa del carro que ingresará"] })
   }
 
   numberOnly = (event): boolean => {
