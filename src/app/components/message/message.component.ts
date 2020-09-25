@@ -31,8 +31,9 @@ export class MessageComponent implements OnInit {
   ngOnChanges(){
     if(this.messageModal.status){
       this.userInfo["identification"] = this.messageModal["data"]["Numero de Documento"];
-      this.userInfo["driverName"] = this.messageModal["data"]["Nombre completo"].trim();
-      this.userInfo["license"] = this.messageModal["data"]["Escriba la placa del carro que ingresará"].trim();
+      this.userInfo["name"] = this.messageModal["data"]["Nombre completo"].trim();
+      this.userInfo["contactNumber"] = this.messageModal["data"]["Numero de Contacto"];
+      // this.userInfo["license"] = this.messageModal["data"]["Escriba la placa del carro que ingresará"].trim();
       this.userInfo["meet"] = this.messageModal["data"]["REUNIÓN A LA QUE PERTENECE"].trim();
     }
   }
@@ -45,10 +46,10 @@ export class MessageComponent implements OnInit {
     if(this.registerForm.invalid){
       return;
     }
-    const { identification, license } = this.userInfo;
+    const { identification, contactNumber  } = this.userInfo;
     this.form.temperature.setValue(parseFloat(this.form.temperature.value.trim()));
     const { temperature } = this.registerForm.getRawValue();
-    this.close.emit({ identification, license, temperature });
+    this.close.emit({ identification, contactNumber, temperature });
   }
 
 }

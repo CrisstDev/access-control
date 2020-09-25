@@ -20,8 +20,20 @@ export class DatabaseService {
     );
   }
 
+
+  getRegistered(){
+    return this.db.list("/assistants").snapshotChanges().pipe(
+      map((changes) => {
+        return changes.map((c: any) => ({
+          $key: c.payload.key,
+          ...c.payload.val(),
+        }));
+      })
+    );
+  }
+
   insertUser(user: { identification: number, license: string }){
-    return this.db.list("/assistants").push(user)
+    return this.db.list("/assistants").push(user);
   }
 
 

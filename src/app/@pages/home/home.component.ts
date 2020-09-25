@@ -43,14 +43,11 @@ export class HomeComponent implements OnInit {
     //Start loading
     this.isLoading = true;
 
-    //Get all list from firebase
-    // this._databaseService.getData().subscribe((res) => {
-
     //asign value and call filter
 
     const res = this.allAssistants;
     let identification = this.form.identification.value;
-    let filtered = this.filter(res, identification);
+    let filtered = this.filter(res, identification, "Numero de Documento");
 
     //Wait some moment to filter
     setTimeout(() => {
@@ -68,33 +65,56 @@ export class HomeComponent implements OnInit {
       //active modal
       this.activeModal = true;
     })
-    // }, err => { throw err; })
   }
 
-  filter(res: any, identification) {
+  filter(res: any, identification, toFilter: string) {
     //filter data
     return res.filter(filter => {
-      return (filter["Numero de Documento"] === parseInt(identification))
-        || (filter["Numero de Documento__1"] === parseInt(identification))
-        || (filter["Numero de Documento__2"] === parseInt(identification))
-        || (filter["Numero de Documento__3"] === parseInt(identification))
+      return (filter[toFilter] === parseInt(identification))
+      // || (filter["Numero de Documento__1"] === parseInt(identification))
+      // || (filter["Numero de Documento__2"] === parseInt(identification))
+      // || (filter["Numero de Documento__3"] === parseInt(identification))
     });
   }
 
-  handleClose(event: any){
-    if(event){
+  handleClose(event: any) {
+    //must insert temperature and more...
+    if (event) {
       this.insertUser(event);
     }
+    //close the modal
     this.activeModal = false;
   }
 
 
   async insertUser(user: any) {
-    if(user){
+      //loading
       this.isLoading = true;
-      await this._databaseService.insertUser({ ...user });
-      this.isLoading = false;
-    }
+      user.creation_date = new Date().toString();
+      // search if the usert exists on assistants collection
+      const data = await this.getRegistered();
+      let filtered = this.filter(data, user.identification, "identification");
+      //await filter and validate
+      setTimeout(async () => {
+        if (filtered.length > 0) {
+          // show modal error
+          this.messageModal.status = false;
+          this.messageModal.message = "Lo sentimos, el asistente ya se encuentra en la reunión.";
+          this.isLoading = false;
+          this.activeModal = true;
+        } else {
+          //insert and stop loading
+          await this._databaseService.insertUser({ ...user });
+          this.isLoading = false;
+        }
+      })
+  }
+
+  getRegistered(): Promise<any> {
+    return new Promise((resolve, reject) => {
+      this._databaseService.getRegistered()
+        .subscribe(res => { resolve(res); })
+    })
   }
 
   numberOnly = (event): boolean => {
