@@ -5,6 +5,7 @@
             <div class="columns">
 
                 <div class="column is-full" *ngIf="messageModal?.status">
+                    <form [formGroup]="registerForm" (ngSubmit)="onSubmit();">
                     <section class="hero is-primary">
                         <div class="hero-body">
                             <div class="container">
@@ -21,34 +22,52 @@
                     <div style="padding: 20px" *ngIf="messageModal?.data">
                         <section class="section" style="background-color: whitesmoke;">
 
-                            <h2 class="title">Información del conductor</h2>
+                            <h2 class="title">Información del asistente</h2>
 
                             <div class="card">
                                 <header class="card-header">
-                                  <p class="card-header-title">
-                                    {{ userInfo.driverName }}
-                                  </p>
+                                    <p class="card-header-title subtitle">
+                                        {{ userInfo.driverName }}
+                                    </p>
                                 </header>
                                 <div class="card-content">
-                                  <div class="content">
-                                      <div style="width: 100%;">
-                                        <span class="subtitle" style="width: 100%;">Placa: {{ userInfo.plate }}</span>
+                                    <div class="content">
+                                        <div style="width: 100%;">
+                                            <span class="subtitle" style="width: 100%;">Placa:
+                                                {{ userInfo.license }}</span>
+                                        </div>
+                                        <div style="width: 100%;">
+                                            <span class="subtitle">Reunión: {{ userInfo.meet }}</span>
+                                        </div>
+
                                     </div>
-                                    <div style="width: 100%;">
-                                        <span class="subtitle">Reunión: {{ userInfo.meet }}</span>
-                                    </div>
-              
-                                  </div>
+                                    <div class="columns">
+                                        <div class="column is-full">
+                                            <div class="field">
+                                                <p class="control has-icons-left">
+                                                    <input class="input" type="text"
+                                                        [ngClass]="{'is-danger': form.temperature.invalid, 'is-success': form.temperature.valid }"
+                                                        placeholder="Digita la temperatura"
+                                                        onKeyPress="if(this.value.length == 4) return false;"
+                                                        formControlName="temperature">
+                                                    <span class="icon is-small is-left">
+                                                        <i class="fas fa-temperature-low"></i>
+                                                    </span>
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>                       
+
                                 </div>
-                              </div>
+                            </div>
 
                         </section>
                     </div>
 
                     <div class="hero" style="padding:12px">
-                        <button class="button is-primary" (click)="handleClose();">Vale</button>
+                        <button class="button is-primary" [disabled]="registerForm.invalid" (click)="onSubmit();">Hecho</button>
                     </div>
-
+                    </form>
                 </div>
 
 

@@ -40,6 +40,6 @@
 
 
     <app-message *ngIf="activeModal" [isActive]="activeModal" [messageModal]="messageModal"
-        (close)="activeModal = false;"></app-message>
+        (close)="handleClose($event);"></app-message>
 
 </div>

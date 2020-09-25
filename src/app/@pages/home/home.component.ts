@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { DatabaseService } from 'src/app/services/database.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
+
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
@@ -57,13 +57,13 @@ export class HomeComponent implements OnInit {
       this.isLoading = false;
       //validate filter
       if (filtered.length > 0) {
-        this.insertUser(filtered[0]);
+        // this.insertUser(filtered[0]);
         this.messageModal.status = true;
-        this.messageModal.message = "El usuario se encuentra registrado.";
+        this.messageModal.message = "El asistente se encuentra registrado.";
         this.messageModal.data = filtered[0];
       } else {
         this.messageModal.status = false;
-        this.messageModal.message = "Lo sentimos, el usuario no existe.";
+        this.messageModal.message = "Lo sentimos, el asistente no existe.";
       }
       //active modal
       this.activeModal = true;
@@ -81,9 +81,20 @@ export class HomeComponent implements OnInit {
     });
   }
 
+  handleClose(event: any){
+    if(event){
+      this.insertUser(event);
+    }
+    this.activeModal = false;
+  }
+
 
   async insertUser(user: any) {
-    const response = await this._databaseService.insertUser({ identification: user["Numero de Documento"], license: user["Escriba la placa del carro que ingresará"] })
+    if(user){
+      this.isLoading = true;
+      await this._databaseService.insertUser({ ...user });
+      this.isLoading = false;
+    }
   }
 
   numberOnly = (event): boolean => {
