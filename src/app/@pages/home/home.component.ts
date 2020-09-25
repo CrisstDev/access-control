@@ -55,11 +55,11 @@ export class HomeComponent implements OnInit {
       //validate filter
       if (filtered.length > 0) {
         // this.insertUser(filtered[0]);
-        this.messageModal.status = true;
+        this.messageModal.status = 'search';
         this.messageModal.message = "El asistente se encuentra registrado.";
         this.messageModal.data = filtered[0];
       } else {
-        this.messageModal.status = false;
+        this.messageModal.status = 'error';
         this.messageModal.message = "Lo sentimos, el asistente no existe.";
       }
       //active modal
@@ -88,26 +88,27 @@ export class HomeComponent implements OnInit {
 
 
   async insertUser(user: any) {
-      //loading
-      this.isLoading = true;
-      user.creation_date = new Date().toString();
-      // search if the usert exists on assistants collection
-      const data = await this.getRegistered();
-      let filtered = this.filter(data, user.identification, "identification");
-      //await filter and validate
-      setTimeout(async () => {
-        if (filtered.length > 0) {
-          // show modal error
-          this.messageModal.status = false;
-          this.messageModal.message = "Lo sentimos, el asistente ya se encuentra en la reunión.";
-          this.isLoading = false;
-          this.activeModal = true;
-        } else {
-          //insert and stop loading
-          await this._databaseService.insertUser({ ...user });
-          this.isLoading = false;
-        }
-      })
+    //loading
+    this.isLoading = true;
+    user.creation_date = new Date().toString();
+    // search if the usert exists on assistants collection
+    const data = await this.getRegistered();
+    let filtered = this.filter(data, user.identification, "identification");
+    //await filter and validate
+    setTimeout(async () => {
+      if (filtered.length > 0) {
+        // show modal error
+        this.messageModal.status = 'error';
+        this.messageModal.message = "Lo sentimos, el asistente ya se encuentra en la reunión.";
+        this.isLoading = false;
+      } else {
+        //insert and stop loading
+        await this._databaseService.insertUser({ ...user });
+        this.messageModal.status = 'registered';
+        this.isLoading = false;
+      }
+      this.activeModal = true;
+    })
   }
 
   getRegistered(): Promise<any> {
